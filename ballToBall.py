@@ -10,7 +10,10 @@ from pydantic import BaseModel
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
 
-red = credentials.Certificate("serviceAccountKey.json")
+import os, json
+firebase_key_json = os.getenv("FIREBASE_KEY")
+cred = credentials.Certificate(json.loads(firebase_key_json))
+
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
