@@ -5,7 +5,7 @@ Created on Sat Apr 19 14:12:21 2025
 @author: Rushi
 """
 
-rom fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException
 from pydantic import BaseModel
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
