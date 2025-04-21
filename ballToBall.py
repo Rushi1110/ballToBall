@@ -4,14 +4,12 @@ import firebase_admin
 from firebase_admin import credentials, auth, firestore
 import os, json
 
-
 firebase_key_json = os.getenv("FIREBASE_KEY")
 cred = credentials.Certificate(json.loads(firebase_key_json))
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 app = FastAPI()
-
 
 @app.get("/balls")
 def get_all_balls(
@@ -24,6 +22,8 @@ def get_all_balls(
 
     all_balls = []
     player_data = {}
+    total_middled = 0
+    total_not_middled = 0
 
     # Normalize filters
     batterName = batterName.strip().lower() if batterName else None
@@ -70,10 +70,14 @@ def get_all_balls(
 
         if is_middled:
             player_data[ball_batter]["middled"] += 1
+            total_middled += 1
         else:
             player_data[ball_batter]["notMiddled"] += 1
+            total_not_middled += 1
 
     return {
         "balls": all_balls,
-        "playerSpecificData": player_data
+        "playerSpecificData": player_data,
+        "totalMiddled": total_middled,
+        "totalNotMiddled": total_not_middled
     }
